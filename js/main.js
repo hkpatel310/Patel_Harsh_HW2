@@ -3,7 +3,8 @@ const theButtons = document.querySelectorAll("#buttonHolder img"),
     puzzleBoard = document.querySelector(".puzzle-board"),
     puzzlePieces = document.querySelectorAll(".puzzle-pieces img"),
     dropZones = document.querySelectorAll(".drop-zone")
-    resetButton = document.querySelectorAll("#resetBut"); // Get the reset button element by resetBut
+    puzzleDiv = document.querySelector(".puzzle-pieces"); // make new const for reset puzzle pie
+    resetButton = document.getElementById("resetBut");
 
  
 //store the dragged piece in a global variable
@@ -11,9 +12,15 @@ const theButtons = document.querySelectorAll("#buttonHolder img"),
 let draggedPiece;
 
 function changeBGImage() {
-    //console.log("changeBGImage called");
-    //url('../images/backGround0.jpg');
+  
     puzzleBoard.style.backgroundImage = `url(images/backGround${this.id}.jpg)`
+    dropZones.forEach((zone) => {
+        if (zone.firstChild) {
+          const piece = zone.firstChild;
+          puzzleDiv.appendChild(piece);
+          piece.classList.remove("dropped");
+    }
+    });
 }
 
 function handleStartDrag() {
@@ -45,10 +52,15 @@ function handleDrop(e) {
     // Append the dragged puzzle piece to the drop zone
     this.appendChild(draggedPiece);
 }
+function reset() {
+    // Reset puzzle by reparenting the puzzle pieces to the puzzleDiv
+    puzzlePieces.forEach((piece) => {
+      piece.classList.remove("dropped");
+      piece.parentNode.removeChild(piece);
+      puzzleDiv.appendChild(piece);
+   });
+}
 
-resetBut.addEventListener("click", function() {  // Add an event listener to the reset button's click event
-    location.reload(); // Reload the current page when the reset button is clicked
-  });
 //event Listeners
 theButtons.forEach(button => button.addEventListener("click", changeBGImage)); 
 
@@ -57,3 +69,5 @@ puzzlePieces.forEach(piece => piece.addEventListener("dragstart", handleStartDra
 dropZones.forEach(zone => zone.addEventListener("dragover", handleDragOver));
 
 dropZones.forEach(zone => zone.addEventListener("drop", handleDrop));
+
+resetButton.addEventListener("click", reset);  // Add an event listener to the reset button's click event
