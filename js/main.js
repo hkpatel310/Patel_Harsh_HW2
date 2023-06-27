@@ -2,7 +2,10 @@
 const theButtons = document.querySelectorAll("#buttonHolder img"),
     puzzleBoard = document.querySelector(".puzzle-board"),
     puzzlePieces = document.querySelectorAll(".puzzle-pieces img"),
-    dropZones = document.querySelectorAll(".drop-zone");
+    dropZones = document.querySelectorAll(".drop-zone")
+    resetButton = document.querySelectorAll("#resetBut");
+
+ 
 //store the dragged piece in a global variable
 //we will need it in the handleDrop function    
 let draggedPiece;
@@ -28,11 +31,23 @@ function handleDragOver(e) {
 function handleDrop(e) {
     e.preventDefault();
     console.log("dropped something on me");
-    //this line moves the dragged piece from the left side of the board
-    //into whatever dropzone we choose.
+
+    // Check if the drop zone already contains a puzzle piece
+    if (this.firstChild) {
+        return; // Return early if a piece already exists in the drop zone
+    }
+
+    // Remove any existing puzzle piece from the drop zone
+    while (this.firstChild) {
+        this.removeChild(this.firstChild);
+    }
+
+    // Append the dragged puzzle piece to the drop zone
     this.appendChild(draggedPiece);
 }
-
+resetBut.addEventListener("click", function() {
+    location.reload();
+  });
 //event Listeners
 theButtons.forEach(button => button.addEventListener("click", changeBGImage)); 
 
@@ -40,4 +55,4 @@ puzzlePieces.forEach(piece => piece.addEventListener("dragstart", handleStartDra
 
 dropZones.forEach(zone => zone.addEventListener("dragover", handleDragOver));
 
-dropZones.forEach(zone => zone.addEventListener("drop", handleDrop));
+dropZones.forEach(zone => zone.addEventListener("drop", handleDrop));
