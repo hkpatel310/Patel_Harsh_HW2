@@ -3,7 +3,7 @@ const theButtons = document.querySelectorAll("#buttonHolder img"),
     puzzleBoard = document.querySelector(".puzzle-board"),
     puzzlePieces = document.querySelectorAll(".puzzle-pieces img"),
     dropZones = document.querySelectorAll(".drop-zone")
-    resetButton = document.querySelectorAll("#resetBut");
+    resetButton = document.querySelectorAll("#resetBut"); // Get the reset button element by resetBut
 
  
 //store the dragged piece in a global variable
@@ -45,8 +45,9 @@ function handleDrop(e) {
     // Append the dragged puzzle piece to the drop zone
     this.appendChild(draggedPiece);
 }
-resetBut.addEventListener("click", function() {
-    location.reload();
+
+resetBut.addEventListener("click", function() {  // Add an event listener to the reset button's click event
+    location.reload(); // Reload the current page when the reset button is clicked
   });
 //event Listeners
 theButtons.forEach(button => button.addEventListener("click", changeBGImage)); 
